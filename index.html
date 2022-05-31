@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>registration details</title>
+        <link rel="stylesheet" href="STYLES.CSS">
+        <!-- <script src="develop.js" defer></script> -->
+    </head>
+<body>
+    <form id="inputForm" class="myForm">
+        <h1>REGISTRATION FORM</h1>
+        <label for="mypic">
+            <img src="iconP.png" id="img">
+          </label>
+        <input type="file" id="mypic" class="hidden" onchange="handleImage(event);">
+        <input id="name" type="text" placeholder="your name">
+        <span id="name-span"></span><br>
+        <input id="emailAddress" type="email" placeholder="your email">
+        <span id="emailAddress-span" class="error-msg"> email is required</span><br>
+        <input id="pincode" type="password" placeholder="your password">
+        <span id="pincode-span"></span><br>
+        <input id="confirm" type="password" placeholder="confirm password">
+        <span id="confirm-span" class="hidden"> passwords don't match!!!!</span><br>
+        <input id="btn" type="submit">
+    </form>
+    <script>
+        document.getElementById('inputForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name=document.getElementById('name').value;
+            const email=document.getElementById('emailAddress').value;
+            const password=document.getElementById('pincode').value;
+            const confirm=document.getElementById('confirm').value;
+            console.log({name:name, email:email, password:password, confirm:confirm})
+            if((name !== '') && (email !== '') && (password !== '') && confirm !== ''){
+                console.log('correct')
+                if(password === confirm){
+                    console.log('passwords match')
+                }else{
+                    console.log('passwords dont match!!!')
+                    document.getElementById('confirm-span').classList.remove('hidden')
+                }
+
+            }else{
+                console.log('inputs are incorrect/empty!!!!')
+                if(email === ''){
+                    document.getElementById('emailAddress-span').classList.remove('hidden')
+                }
+                if(confirm ===""){
+                    document.getElementById('confirm-span').classList.remove('hidden')
+                }
+            }
+
+        })
+        document.getElementById('emailAddress').addEventListener('keypress', () => {
+            console.log('changing')
+            console.log(document.getElementById('emailAddress').value);
+            document.getElementById('emailAddress-span').classList.add('hidden')
+        })
+        //image function
+        function handleImage(e) {
+
+            console.log(e);
+            //targetting the image
+            const img = e.target.files[0];
+            console.log(img);   
+            //read the image
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(img);
+            fileReader.onloadend = (data) => {
+             console.log(data);
+            //image results
+            const src = data.target.result;
+             console.log(src);
+             console.log(document.getElementById('img'));
+            document.getElementById('img').src = src;
+            console.log(document.getElementById('img'));
+        //set the item in the local storage
+            localStorage.setItem('propic',src)
+            const picFromLocalStorage=localStorage.getItem('propic')
+             document.getElementById('img').src = picFromLocalStorage;
+
+            }
+   
+                
+        }
+   
+
+    </script>
+
+      
+</body>
+
+
+</html>
